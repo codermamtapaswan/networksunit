@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Networksunit</title>
+    <link rel="preload" href="./assets/font-family/poppins-v21-latin-regular.woff2" fetchpriority="highest" as="font"
+      crossorigin="">
+    <link rel="preload" href="./assets/font-family/poppins-v21-latin-600.woff2" fetchpriority="highest" as="font"
+      crossorigin="">
+    <link rel="preload" href="./assets/font-family/poppins-v21-latin-700.woff2" fetchpriority="highest" as="font"
+      crossorigin="">
+    <style>
+      /* poppins-regular - latin */
+      @font-face {
+      font-display: swap;
+      /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 400;
+      src: url('./assets/font-family/poppins-v21-latin-regular.woff2') format('woff2');
+      /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+      }
+      /* poppins-500 - latin */
+      @font-face {
+      font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 500;
+      src: url('./assets/font-family/poppins-v21-latin-500.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+      }
+      /* poppins-600 - latin */
+      @font-face {
+      font-display: swap;
+      /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 600;
+      src: url('./assets/font-family/poppins-v21-latin-600.woff2') format('woff2');
+      /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+      }
+      /* poppins-700 - latin */
+      @font-face {
+      font-display: swap;
+      /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 700;
+      src: url('./assets/font-family/poppins-v21-latin-700.woff2') format('woff2');
+      /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+      }
+    </style>
+    <link rel="stylesheet" href="./assets/css/layout.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+  </head>
+  <body>
+    <!-- header start -->
+    <header>
+      <div class="container">
+        <div class="top-bar">
+          <div id="site-logo">
+            <a href="index.html">
+            <img src="./assets/img/Networksunit-logo.svg" alt="" class="img-fluid">
+            </a>
+          </div>
+          <div class="search-form">
+            <form action="">
+              <input type="search" placeholder="What can we help you find today?" required="">
+              <button type="submit" class="search-btn trip-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M7.333 12.667A5.333 5.333 0 1 0 7.333 2a5.333 5.333 0 0 0 0 10.667ZM14 14l-2.9-2.9"
+                    stroke="#3D564A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </button>
+            </form>
+          </div>
+          <ul class="top-bar-links-flex">
+            <li>
+              <a href="index.html">Pricing</a>
+            </li>
+            <li>
+              <a href="index.html">API</a>
+            </li>
+            <li>
+              <a href="index.html">Help</a>
+            </li>
+          </ul>
+          <div class="toggle-slide-btn" onclick="toggleButtons()">
+            <svg fill="#000" width="16" height="16" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM64 256c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z">
+              </path>
+            </svg>
+          </div>
+          <div class="mob-search-btn">
+            <span class="search-icon-flex">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M7.333 12.667A5.333 5.333 0 1 0 7.333 2a5.333 5.333 0 0 0 0 10.667ZM14 14l-2.9-2.9" stroke="#000"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+          </div>
+        </div>
+        <div class="navigation">
+          <nav>
+            <ul>
+              <li class="dropdown">
+                <a href="#" class="link-active">What is My IP?</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 448 512">
+                  <path
+                    d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z">
+                  </path>
+                </svg>
+                <ul>
+                  <li>
+                    <a href="#">Artist</a>
+                  </li>
+                  <li>
+                    <a href="#">Budget</a>
+                  </li>
+                  <li>
+                    <a href="#">Guide</a>
+                  </li>
+                  <li>
+                    <a href="#">User Login</a>
+                  </li>
+                  <li>
+                    <a href="#">Contact</a>
+                  </li>
+                  <li>
+                    <a href="#">Budget</a>
+                  </li>
+                  <li class="dropdown">
+                    <a href="#">Budget</a>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 448 512">
+                      <path
+                        d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z">
+                      </path>
+                    </svg>
+                    <ul>
+                      <li>
+                        <a href="#">Instagram</a>
+                      </li>
+                      <li>
+                        <a href="#">Instagram</a>
+                      </li>
+                      <li>
+                        <a href="#">Instagram</a>
+                      </li>
+                      <li>
+                        <a href="#">Instagram</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="#">IP Address Lookup</a></li>
+              <li>
+                <a href="index.html">IP WHOIS Lookup</a>
+              </li>
+              <li>
+                <a href="index.html">DNS Lookup</a>
+              </li>
+              <li>
+                <a href="index.html">Internet Speed Test</a>
+              </li>
+              <li>
+                <a href="index.html">Tools</a>
+              </li>
+              <div class="cancel-btn" onclick="toggleButtons()">
+                <svg fill="#000" xmlns="http://www.w3.org/2000/svg" height="18" width="18" viewBox="0 0 384 512">
+                  <path
+                    d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z">
+                  </path>
+                </svg>
+              </div>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <!-- header end -->
+    <main>
+      <div class="bg-img">
+        <div class="container">
+          <div class="row">
+            <p id="breadcrumbs"><span><span><a href="https://getassist.net/category/social-media/">Social
+              Media</a></span> &gt; <span><a
+                href="https://getassist.net/category/social-media/facebook/">Facebook</a></span> &gt; <span><a
+                href="https://getassist.net/category/social-media/facebook/">Facebook</a></span></span>
+            </p>
+            <div class="blog-seperator-social-flex">
+              <h1>Elden Ring Shadow of the Erdtree Brings Back This Beloved Dark Souls 3 Feature</h1>
+              <ul class="footer-social-links-flex">
+                <li>
+                  <a href="#">
+                    <svg fill="#000" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                      <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                      <path
+                        d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141m0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7m146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8m76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8M398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1">
+                      </path>
+                    </svg>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <svg fill="#000" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                      <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                      <path
+                        d="M100.3 448H7.4V148.9h92.9zM53.8 108.1C24.1 108.1 0 83.5 0 53.8a53.8 53.8 0 0 1 107.6 0c0 29.7-24.1 54.3-53.8 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z">
+                      </path>
+                    </svg>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <svg fill="#000" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                      <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                      <path
+                        d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z">
+                      </path>
+                    </svg>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <svg fill="#000" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                      <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                      <path
+                        d="M80 299.3V512h116V299.3h86.5l18-97.8H196v-34.6c0-51.7 20.3-71.5 72.7-71.5 16.3 0 29.4.4 37 1.2V7.9C291.4 4 256.4 0 236.2 0 129.3 0 80 50.5 80 159.4v42.1H14v97.8z">
+                      </path>
+                    </svg>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="author-title">
+              <div class="auth-img">
+                <a href="#">
+                <img src="https://www.waybinary.com/wp-content/uploads/2024/02/Alex-Smith.webp">
+                </a>
+              </div>
+              <div class="about-profile">
+                <a href="#" class="name">Manpreet Kaur Sandhu</a>
+                <div class="auhtor-meta-flex">
+                  <span>9th May 2024</span>
+                  <span>6 mins</span>
+                </div>
+              </div>
+              <div class="category-flex">
+                <span>CATREGORY</span>
+                <a href="#">Design Process</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="single-page all-page">
+          <div class="row">
+            <div class="col-lg-9 order-md">
+              <div class="tableofcontent number-remove">
+                <div class="toc-body">
+                  <div class="toc-title">Table of Contents</div>
+                  <ul>
+                    <li> <a href="#1">Popular &amp; Best Google Doodle Games — Dive Into the Mini
+                      Arcade</a>
+                    </li>
+                    <li>
+                      <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                      Mini Arcade</a>
+                      <ul>
+                        <li> <a href="#1">Popular &amp; Best Google Doodle Games — Dive Into the Mini
+                          Arcade</a>
+                        </li>
+                        <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                          Mini Arcade</a>
+                        </li>
+                        <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                          Mini Arcade</a>
+                        </li>
+                        <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                          Mini Arcade</a>
+                        </li>
+                        <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                          Mini Arcade</a>
+                        </li>
+                        <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                          Mini Arcade</a>
+                        </li>
+                        <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                          Mini Arcade</a>
+                        </li>
+                        <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                          Mini Arcade</a>
+                        </li>
+                        <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                          Mini Arcade</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                      Mini Arcade</a>
+                    </li>
+                    <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                      Mini Arcade</a>
+                    </li>
+                    <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                      Mini Arcade</a>
+                    </li>
+                    <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                      Mini Arcade</a>
+                    </li>
+                    <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                      Mini Arcade</a>
+                    </li>
+                    <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                      Mini Arcade</a>
+                    </li>
+                    <li> <a href="#">30 Popular &amp; Best Google Doodle Games — Dive Into the
+                      Mini Arcade</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="toc-header">
+                  <span>Table of Contents</span>
+                  <div class="arrow">
+                    <svg class="vector" width="12" height="12" viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 0L6 6L12 0" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="col-seperator">
+                <p>Lorem ipsum dolor sit amet, <strong>consectetur adipisicing elit</strong>, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                  proident, sunt in culpa qui officia <a href="#">deserunt mollit anim</a> id est laborum.
+                </p>
+                <div class="number">
+                  <h2 id="1">When it comes to crafting this interaction</h2>
+                </div>
+                <p>Now we have gone beyond that; it’s also about how humans and digital interfaces behave toward one
+                  another.
+                </p>
+                <blockquote>
+                  <p>Google Doodle has always celebrated iconic events in an intriguing and interesting manner. The
+                    captivating effect of those tiny pieces of crafts is undeniable. And to take this setup one notch
+                    higher, Google introduced.
+                  </p>
+                </blockquote>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <div class="number">
+                  <h2 id="2">When it comes to crafting this interaction</h2>
+                </div>
+                <p>Now we have gone beyond that; it’s also about how humans and digital interfaces behave toward one
+                  another.
+                </p>
+                <div class="widgets notes">
+                  <div class="wid-title">Notes</div>
+                  <p>What does the term 'interaction' <a href="">truly</a> mean to you? Isn't it about the communication and
+                    understanding shared between two individuals? Well, now we have gone beyond that; it’s also about how
+                    humans and digital interfaces behave toward one another. When it comes to crafting this interaction is
+                    all about making it seamless for both humans and computers, with the ultimate goal of ensuring user
+                    satisfaction.
+                  </p>
+                  <ul>
+                    <li>Are you struggling to find appropriate ways to search OnlyFans profiles you want to interact with?
+                      Does searching
+                    </li>
+                    <li>You want an easy and precise approach to get it done. Well, we have got you.
+                    <li>Are you struggling to find <a href="#"> appropriate</a> ways to search OnlyFans profiles you want to
+                      interact with? Does searching
+                    </li>
+                    </li>
+                  </ul>
+                  <ol>
+                    <li>Are you struggling to find appropriate ways to search OnlyFans profiles you want to interact with?
+                      Does searching
+                    </li>
+                    <li>You want an easy and precise approach to get it done. Well, we have got you. </li>
+                    <li>Are you struggling to find appropriate ways to search OnlyFans profiles you want to interact with?
+                      Does searching
+                    </li>
+                    <li>You want an easy and precise approach to get it done. Well, we have got you.</li>
+                  </ol>
+                </div>
+                <ul>
+                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, nemo.</li>
+                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, nemo.</li>
+                  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, nemo.</li>
+                </ul>
+                <figure class="wp-block-table is-style-stripes">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>First</th>
+                        <th>Last</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Are you struggling</td>
+                        <td>Are you struggling</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Are you struggling</td>
+                        <td>Are you struggling</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>Are you struggling</td>
+                        <td>Are you struggling</td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>Are you struggling</td>
+                        <td>Are you struggling</td>
+                      </tr>
+                      <tr>
+                        <td>5</td>
+                        <td>Are you struggling</td>
+                        <td>Are you struggling</td>
+                      </tr>
+                      <tr>
+                        <td>6</td>
+                        <td>Are you struggling</td>
+                        <td>Are you struggling</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </figure>
+                <div class="widgets sources">
+                  <div class="wid-title">Sources</div>
+                  <p>What does the term 'interaction' <a href="">truly</a> mean to you? Isn't it about the communication and
+                    understanding shared between two individuals? Well, now we have gone beyond that; it’s also about how
+                    humans and digital interfaces behave toward one another. When it comes to crafting this interaction is
+                    all about making it seamless for both humans and computers, with the ultimate goal of ensuring user
+                    satisfaction.
+                  </p>
+                  <ul>
+                    <li>Are you struggling to find appropriate ways to search OnlyFans profiles you want to interact with?
+                      Does searching
+                    </li>
+                    <li>You want an easy and precise approach to get it done. Well, we have got you.
+                    <li>Are you struggling to find <a href="#"> appropriate</a> ways to search OnlyFans profiles you want to
+                      interact with? Does searching
+                    </li>
+                    </li>
+                  </ul>
+                  <ol>
+                    <li>Are you struggling to find appropriate ways to search OnlyFans profiles you want to interact with?
+                      Does searching
+                    </li>
+                    <li>You want an easy and precise approach to get it done. Well, we have got you. </li>
+                    <li>Are you struggling to find appropriate ways to search OnlyFans profiles you want to interact with?
+                      Does searching
+                    </li>
+                    <li>You want an easy and precise approach to get it done. Well, we have got you.</li>
+                  </ol>
+                </div>
+                <div class="widgets also-read">
+                  <div class="wid-title">Also Read</div>
+                  <div class="col-lg-12 mb-3">
+                    <div class="site-card-flex d-grid-30-auto">
+                      <div class="card-img">
+                        <a href="#">
+                        <img src="https://getassist.net/wp-content/uploads/2024/05/car-thing.webp" alt=""
+                          class="img-fluid">
+                        </a>
+                      </div>
+                      <div class="card-content-flex p-20">
+                        <div class="card-meta-flex">
+                          <a href="#" class="cat-g">Procutivity</a>
+                        </div>
+                        <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News
+                        and Features......</a>
+                        <div class="card-meta">
+                          <span>14 Feb, 2024 </span> /
+                          <a href="#">By Anna Rosé</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 mb-3">
+                    <div class="site-card-flex d-grid-30-auto">
+                      <div class="card-img">
+                        <a href="#">
+                        <img src="https://getassist.net/wp-content/uploads/2024/05/car-thing.webp" alt=""
+                          class="img-fluid">
+                        </a>
+                      </div>
+                      <div class="card-content-flex p-20">
+                        <div class="card-meta-flex">
+                          <a href="#" class="cat-g">Procutivity</a>
+                        </div>
+                        <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News
+                        and Features......</a>
+                        <div class="card-meta">
+                          <span>14 Feb, 2024 </span> /
+                          <a href="#">By Anna Rosé</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="counter">
+                  <h2>When it comes to crafting this interaction</h2>
+                </div>
+                <p>Now we have gone beyond that; it’s also about how humans and digital interfaces behave toward one
+                  another.
+                </p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <div class="counter">
+                  <h2>When it comes to crafting this interaction</h2>
+                </div>
+                <div class="counter-remove"></div>
+                <p>Now we have gone beyond that; it’s also about how humans and digital interfaces behave toward one
+                  another.
+                </p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <h2>When it comes to crafting this interaction</h2>
+                <p>Now we have gone beyond that; it’s also about how humans and digital interfaces behave toward one
+                  another.
+                </p>
+                <div class="pc-widgets">
+                  <div class="pc-container">
+                    <div class="pc-header">What We Like</div>
+                    <div class="pc-body">
+                      <ul>
+                        <li>OnlyFans support maintaining the privacy</li>
+                        <li>OnlyFans support maintaining the privacy</li>
+                        <li>OnlyFans support maintaining the privacy</li>
+                        <li>OnlyFans support maintaining the privacy</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="pc-container">
+                    <div class="pc-header">What We Don’t Like</div>
+                    <div class="pc-body">
+                      <ul>
+                        <li>OnlyFans support maintaining the privacy</li>
+                        <li>OnlyFans support maintaining the privacy</li>
+                        <li>OnlyFans support maintaining the privacy</li>
+                        <li>OnlyFans support maintaining the privacy</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <h2>When it comes to crafting this interaction</h2>
+                <p>Now we have gone beyond that; it’s also about how humans and digital interfaces behave toward one
+                  another.
+                </p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <h2>When it comes to crafting this interaction</h2>
+                <p>Now we have gone beyond that; it’s also about how humans and digital interfaces behave toward one
+                  another.
+                </p>
+                <h2>Frequently Asked Questions</h2>
+                <div class="accordions">
+                  <details class="active" open="">
+                    <summary class="">What is an IP address?</summary>
+                    <div class="content">
+                      <p>
+                        Organizations are now compelled to complete comprehensive cybersecurity strategies to safeguard
+                        their systems, networks.
+                        Organizations are now compelled to complete comprehensive cybersecurity strategies to safeguard
+                        their systems, networks
+                      </p>
+                    </div>
+                  </details>
+                  <details>
+                    <summary>What is an IP address?</summary>
+                    <div class="content">
+                      <p>
+                        The basic plan allows one account, the standard plan allows two, and the premium
+                        plan allows
+                        up to 4 accounts.
+                      </p>
+                    </div>
+                  </details>
+                  <details>
+                    <summary class="">What is an IP address?</summary>
+                    <div class="content">
+                      <p>
+                        The basic plan allows one account, the standard plan allows two, and the premium
+                        plan allows
+                        up to 4 accounts.
+                      </p>
+                    </div>
+                  </details>
+                </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <div class="author-title single-aut">
+                  <div class="auth-img">
+                    <a href="#">
+                    <img src="https://www.waybinary.com/wp-content/uploads/2024/02/Alex-Smith.webp">
+                    </a>
+                  </div>
+                  <div class="about-profile-flex">
+                    <a href="#" class="name">John Doe</a>
+                    <ul class="single-aut-social-flex">
+                      <li>
+                        <a href="#" rel="nofollow" target="_blank" aria-label="facebook">
+                          <svg width="23" height="23"
+                            viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#3B5998"
+                              d="M23 11.5A11.5 11.5 0 0 1 11.5 23 11.5 11.5 0 0 1 0 11.5a11.5 11.5 0 0 1 23 0"></path>
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M14.556 7.451a7 7 0 0 0-1.148-.126c-.824 0-.878.359-.878.932v1.021h2.061l-.179 2.115h-1.881v6.432H9.952v-6.431H8.626V9.279h1.326V7.971c0-1.792.842-2.796 2.956-2.796.736 0 1.273.107 1.973.251z"
+                              fill="#fff"></path>
+                          </svg>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" rel="nofollow" target="_blank" aria-label="twitter">
+                          <svg width="23" height="23"
+                            viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23 11.5C23 17.851 17.851 23 11.5 23S0 17.851 0 11.5 5.149 0 11.5 0 23 5.149 23 11.5"
+                              fill="#000"></path>
+                            <path
+                              d="M14.953 7.169h1.665l-3.637 4.156 4.278 5.655H13.91l-2.625-3.429-3 3.429H6.617l3.889-4.446-4.101-5.366h3.434l2.37 3.135zm-.585 8.816h.922L9.338 8.112h-.99z"
+                              fill="#fff"></path>
+                          </svg>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" rel="nofollow" target="_blank" aria-label="pinterest">
+                          <svg width="23" height="23"
+                            viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#BD081C"
+                              d="M23 11.5A11.5 11.5 0 0 1 11.5 23 11.5 11.5 0 0 1 0 11.5a11.5 11.5 0 0 1 23 0"></path>
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M11.99 4.6c-3.766 0-5.665 2.7-5.665 4.952 0 1.364.517 2.576 1.623 3.028.181.074.344.003.397-.198.037-.139.124-.49.162-.637.053-.198.033-.268-.114-.442-.319-.376-.523-.863-.523-1.554 0-2.004 1.499-3.797 3.903-3.797 2.128 0 3.298 1.301 3.298 3.038 0 2.286-1.012 4.215-2.514 4.215-.829 0-1.45-.686-1.251-1.527.238-1.004.7-2.088.7-2.813 0-.649-.348-1.189-1.069-1.189-.848 0-1.529.876-1.529 2.051 0 .748.253 1.255.253 1.255l-1.02 4.319c-.302 1.282-.045 2.854-.024 3.012.013.095.134.117.189.045.078-.102 1.088-1.348 1.431-2.594.097-.352.557-2.178.557-2.178.275.526 1.08.988 1.937.988 2.548 0 4.277-2.323 4.277-5.433 0-2.351-1.991-4.54-5.018-4.54"
+                              fill="#fff"></path>
+                          </svg>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" rel="nofollow" target="_blank" aria-label="instagram">
+                          <svg width="23" height="23"
+                            viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23 11.5C23 17.851 17.851 23 11.5 23S0 17.851 0 11.5 5.149 0 11.5 0 23 5.149 23 11.5"
+                              fill="url(#insta)"></path>
+                            <path
+                              d="M11.791 9.076c-1.5 0-2.71 1.21-2.71 2.71s1.21 2.71 2.71 2.71 2.71-1.21 2.71-2.71-1.21-2.71-2.71-2.71m0 4.471c-.97 0-1.762-.79-1.762-1.761 0-.972.79-1.762 1.762-1.762s1.762.79 1.762 1.762c0 .971-.793 1.761-1.762 1.761m3.453-4.582a.63.63 0 0 1-.632.632.632.632 0 1 1 .632-.632m1.794.641c-.04-.846-.233-1.596-.853-2.214-.618-.618-1.368-.811-2.215-.854-.873-.05-3.488-.05-4.36 0-.845.04-1.595.234-2.215.852-.62.617-.811 1.367-.854 2.214-.05.873-.05 3.488 0 4.36.04.847.234 1.597.854 2.215s1.368.812 2.214.854c.873.05 3.489.05 4.361 0 .847-.04 1.597-.233 2.215-.854.618-.618.81-1.368.853-2.214.05-.873.05-3.486 0-4.359m-1.127 5.295c-.184.462-.54.818-1.005 1.005-.695.276-2.346.212-3.115.212s-2.422.061-3.115-.212A1.78 1.78 0 0 1 7.67 14.9c-.276-.696-.212-2.346-.212-3.115s-.062-2.422.212-3.116c.184-.462.54-.818 1.005-1.005.695-.275 2.346-.212 3.115-.212s2.422-.061 3.115.212c.463.184.819.54 1.005 1.005.276.696.212 2.347.212 3.116s.064 2.422-.212 3.115"
+                              fill="#fff"></path>
+                            <defs>
+                              <linearGradient id="insta" x1="8.351" y1="23" x2="13.526" y2=".575"
+                                gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#FEDA75"></stop>
+                                <stop offset=".193" stop-color="#FA7E1E"></stop>
+                                <stop offset=".453" stop-color="#D62976"></stop>
+                                <stop offset=".739" stop-color="#962FBF"></stop>
+                                <stop offset=".99" stop-color="#4F5BD5"></stop>
+                              </linearGradient>
+                            </defs>
+                          </svg>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#" rel="nofollow" target="_blank" aria-label="linkedin">
+                          <svg width="23" height="23"
+                            viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#0077B5"
+                              d="M23 11.5A11.5 11.5 0 0 1 11.5 23 11.5 11.5 0 0 1 0 11.5a11.5 11.5 0 0 1 23 0"></path>
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M8.496 5.913c0 .716-.545 1.296-1.398 1.296-.819 0-1.364-.58-1.347-1.296-.017-.75.527-1.313 1.363-1.313s1.365.563 1.381 1.313M5.819 16.571V8.232h2.592v8.338zm4.669-5.677c0-1.04-.034-1.927-.069-2.661h2.251l.12 1.143h.051c.342-.529 1.193-1.329 2.575-1.329 1.705 0 2.984 1.125 2.984 3.58v4.946h-2.592v-4.621c0-1.075-.375-1.808-1.313-1.808-.716 0-1.142.494-1.312.971a1.9 1.9 0 0 0-.103.649v4.809h-2.592z"
+                              fill="#fff"></path>
+                          </svg>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="co-author">
+                <div class="co-img">
+                  <a href="#">
+                  <img src="https://getassist.net/wp-content/uploads/2023/10/Adam-Green.webp" class="img-fluid">
+                  </a>
+                </div>
+                <div class="co-txt">
+                  <span>Co-authored by :</span>
+                  <a href="#">Esther Howard</a>
+                </div>
+              </div>
+              <div class="trending-post">
+                <div class="h5">Trending Post</div>
+                <div class="site-card-flex d-grid-60-auto mb-3">
+                  <div class="card-img">
+                    <a href="#">
+                    <img src="https://getassist.net/wp-content/uploads/2024/05/car-thing.webp" alt="" class="img-fluid">
+                    </a>
+                  </div>
+                  <div class="card-content-flex p-20">
+                    <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News and Features......</a>
+                    <div class="card-meta">
+                      <a href="#">By Anna Rosé</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="site-card-flex mb-3">
+                  <div class="card-content-flex p-20">
+                    <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News and Features......</a>
+                    <div class="card-meta">
+                      <a href="#">By Anna Rosé</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="site-card-flex mb-3">
+                  <div class="card-content-flex p-20">
+                    <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News and Features......</a>
+                    <div class="card-meta">
+                      <a href="#">By Anna Rosé</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="site-card-flex mb-3">
+                  <div class="card-content-flex p-20">
+                    <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News and Features......</a>
+                    <div class="card-meta">
+                      <a href="#">By Anna Rosé</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="site-card-flex mb-3">
+                  <div class="card-content-flex p-20">
+                    <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News and Features......</a>
+                    <div class="card-meta">
+                      <a href="#">By Anna Rosé</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container mb-5">
+        <div class="row">
+          <div class="h2 text-center">Related Post</div>
+          <div class="col-lg-4 mb-3">
+            <div class="row h-100">
+              <div class="col-lg-12">
+                <div class="site-card-flex d-grid-60-auto">
+                  <div class="card-img">
+                    <a href="#">
+                    <img src="https://getassist.net/wp-content/uploads/2024/05/car-thing.webp" alt="" class="img-fluid">
+                    </a>
+                  </div>
+                  <div class="card-content-flex p-20">
+                    <div class="card-meta-flex">
+                      <a href="#" class="cat-g">Procutivity</a>
+                    </div>
+                    <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News
+                    and Features......</a>
+                    <div class="card-meta">
+                      <span>14 Feb, 2024 </span> /
+                      <a href="#">By Anna Rosé</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="row h-100">
+              <div class="col-lg-12">
+                <div class="site-card-flex d-grid-60-auto">
+                  <div class="card-img">
+                    <a href="#">
+                    <img src="https://getassist.net/wp-content/uploads/2024/05/car-thing.webp" alt="" class="img-fluid">
+                    </a>
+                  </div>
+                  <div class="card-content-flex p-20">
+                    <div class="card-meta-flex">
+                      <a href="#" class="cat-g">Procutivity</a>
+                    </div>
+                    <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News
+                    and Features......</a>
+                    <div class="card-meta">
+                      <span>14 Feb, 2024 </span> /
+                      <a href="#">By Anna Rosé</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="row h-100">
+              <div class="col-lg-12">
+                <div class="site-card-flex d-grid-60-auto">
+                  <div class="card-img">
+                    <a href="#">
+                    <img src="https://getassist.net/wp-content/uploads/2024/05/car-thing.webp" alt="" class="img-fluid">
+                    </a>
+                  </div>
+                  <div class="card-content-flex p-20">
+                    <div class="card-meta-flex">
+                      <a href="#" class="cat-g">Procutivity</a>
+                    </div>
+                    <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News
+                    and Features......</a>
+                    <div class="card-meta">
+                      <span>14 Feb, 2024 </span> /
+                      <a href="#">By Anna Rosé</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="row h-100">
+              <div class="col-lg-12">
+                <div class="site-card-flex d-grid-60-auto">
+                  <div class="card-img">
+                    <a href="#">
+                    <img src="https://getassist.net/wp-content/uploads/2024/05/car-thing.webp" alt="" class="img-fluid">
+                    </a>
+                  </div>
+                  <div class="card-content-flex p-20">
+                    <div class="card-meta-flex">
+                      <a href="#" class="cat-g">Procutivity</a>
+                    </div>
+                    <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News
+                    and Features......</a>
+                    <div class="card-meta">
+                      <span>14 Feb, 2024 </span> /
+                      <a href="#">By Anna Rosé</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="row h-100">
+              <div class="col-lg-12">
+                <div class="site-card-flex d-grid-60-auto">
+                  <div class="card-img">
+                    <a href="#">
+                    <img src="https://getassist.net/wp-content/uploads/2024/05/car-thing.webp" alt="" class="img-fluid">
+                    </a>
+                  </div>
+                  <div class="card-content-flex p-20">
+                    <div class="card-meta-flex">
+                      <a href="#" class="cat-g">Procutivity</a>
+                    </div>
+                    <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News
+                    and Features......</a>
+                    <div class="card-meta">
+                      <span>14 Feb, 2024 </span> /
+                      <a href="#">By Anna Rosé</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 mb-3">
+            <div class="row h-100">
+              <div class="col-lg-12">
+                <div class="site-card-flex d-grid-60-auto">
+                  <div class="card-img">
+                    <a href="#">
+                    <img src="https://getassist.net/wp-content/uploads/2024/05/car-thing.webp" alt="" class="img-fluid">
+                    </a>
+                  </div>
+                  <div class="card-content-flex p-20">
+                    <div class="card-meta-flex">
+                      <a href="#" class="cat-g">Procutivity</a>
+                    </div>
+                    <a href="#" class="truncate site-title">The Art of Living: News and Features The Art of Living: News
+                    and Features......</a>
+                    <div class="card-meta">
+                      <span>14 Feb, 2024 </span> /
+                      <a href="#">By Anna Rosé</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <div id="progress">
+      <span id="progress-value">
+        <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M8.134.366a1.25 1.25 0 0 0-1.768 0l-6 6a1.25 1.25 0 1 0 1.768 1.768L6 4.268V17.25a1.25 1.25 0 1 0 2.5 0V4.268l3.866 3.866a1.25 1.25 0 0 0 1.768-1.768z"
+            fill="#000"></path>
+        </svg>
+      </span>
+    </div>
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-4 mb-3">
+            <div class="footer-logo-flex">
+              <div id="site-logo">
+                <a href="index.html">
+                <img src="./assets/img/Networksunit-logo.svg" alt="" class="img-fluid">
+                </a>
+              </div>
+              <div class="inner-mail-flex">
+                <span>Email at :</span>
+                <a href="mailto:info@Networksunit.com">info@Networksunit.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4 mb-3">
+            <div class="footer-catg">Guideline
+            </div>
+            <ul class="footer-links-flex">
+              <li>
+                <a href="404.html">404
+                </a>
+              </li>
+              <li>
+                <a href="single.html">Blog
+                </a>
+              </li>
+              <li>
+                <a href="author.html">Author
+                </a>
+              </li>
+              <li>
+                <a href="all-author.html">All Author
+                </a>
+              </li>
+              <li>
+                <a href="contact.html">Contact Page
+                </a>
+              </li>
+              <li>
+                <a href="thankyou.html">Thank You</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-4 mb-3">
+            <div class="footer-catg">Retirement Benefit
+            </div>
+            <ul class="footer-links-flex">
+              <li>
+                <a href="category.html">Category
+                </a>
+              </li>
+              <li>
+                <a href="search-n-found.html">Search not found
+                </a>
+              </li>
+              <li>
+                <a href="all-author.html">Superannuation
+                </a>
+              </li>
+              <li>
+                <a href="contact-p.html">Pension Management
+                </a>
+              </li>
+              <li>
+                <a href="single.html">GPF Trust
+                </a>
+              </li>
+              <li>
+                <a href="thankyou.html">Unexempted PF</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-4 mb-3">
+            <div class="footer-catg">Products
+            </div>
+            <ul class="footer-links-flex">
+              <li>
+                <a href="404.html">Payroll Software
+                </a>
+              </li>
+              <li>
+                <a href="author.html">HR Software
+                </a>
+              </li>
+              <li>
+                <a href="all-author.html">Attendance Management System
+                </a>
+              </li>
+              <li>
+                <a href="contact-p.html">Leave Management System
+                </a>
+              </li>
+              <li>
+                <a href="single.html">Performance Management Software
+                </a>
+              </li>
+              <li>
+                <a href="thankyou.html">Mobile Application</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="footer-strip-flex">
+            <div class="footer-social-flex">
+              <span>Follow Us</span>
+              <ul class="footer-social-links-flex">
+                <li>
+                  <a href="#">
+                    <svg fill="#000" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                      <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                      <path
+                        d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141m0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7m146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8m76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8M398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1">
+                      </path>
+                    </svg>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <svg fill="#000" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                      <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                      <path
+                        d="M100.3 448H7.4V148.9h92.9zM53.8 108.1C24.1 108.1 0 83.5 0 53.8a53.8 53.8 0 0 1 107.6 0c0 29.7-24.1 54.3-53.8 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z">
+                      </path>
+                    </svg>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <svg fill="#000" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                      <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                      <path
+                        d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z">
+                      </path>
+                    </svg>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <svg fill="#000" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                      <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                      <path
+                        d="M80 299.3V512h116V299.3h86.5l18-97.8H196v-34.6c0-51.7 20.3-71.5 72.7-71.5 16.3 0 29.4.4 37 1.2V7.9C291.4 4 256.4 0 236.2 0 129.3 0 80 50.5 80 159.4v42.1H14v97.8z">
+                      </path>
+                    </svg>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="newsletter-flex">
+              <span>Sign in and don’t miss anything!</span>
+              <form action="">
+                <input type="search" placeholder="Enter Your Emails" required="" name="your-name">
+                <div class="btn-container-flex">
+                  <button class="btn-flex" type="submit">
+                  SUBSCRIBE
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="copyright">
+        <p class="mb-0">Copyright © 2024 Accountiod. All Rights Reserved</p>
+      </div>
+    </footer>
+    <script src="./assets/js/script.js"></script>
+  </body>
+</html>
+</div>
