@@ -1,16 +1,50 @@
+<?php
+$dns_types = [
+  "DNS_A" => "A",
+  "DNS_CNAME" => "CNAME",
+  "DNS_HINFO" => "HINFO",
+  "DNS_CAA" => "CAA",
+  "DNS_MX" => "MX",
+  "DNS_NS" => "NS",
+  "DNS_PTR" => "PTR",
+  "DNS_SOA" => "SOA",
+  "DNS_TXT" => "TXT",
+  "DNS_AAAA" => "AAAA",
+  "DNS_SRV" => "SRV",
+  "DNS_NAPTR" => "NAPTR",
+  "DNS_A6" => "A6",
+  "DNS_ALL" => "ALL",
+  "DNS_ANY" => "ANY (default)"
+];
+if (isset($_POST['dns_checker'])) {
+  $domain_name = $_POST['domain_name'];
+  $get_dns_type = $_POST['get_dns_type'];
+  // Regular expression for validating a domain name
+  $domain_regex = "/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/";
+
+  if (preg_match($domain_regex, $domain_name)) {
+    $dnsdata = dns_get_record($domain_name, constant($get_dns_type));
+    if (!$dnsdata) {
+      $message = " No Data !";
+    }
+  } else {
+    $message = '<span class="ip-address h4">' . $domain_name . '</span>is Not a valid Domain Name!';
+  }
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CheckTool</title>
-  <link rel="preload" href="./assets/font-family/poppins-v21-latin-regular.woff2" fetchpriority="highest" as="font"
-    crossorigin="">
-  <link rel="preload" href="./assets/font-family/poppins-v21-latin-600.woff2" fetchpriority="highest" as="font"
-    crossorigin="">
-  <link rel="preload" href="./assets/font-family/poppins-v21-latin-700.woff2" fetchpriority="highest" as="font"
-    crossorigin="">
+  <title>Reverse DNS Lookup</title>
+  <link rel="preload" href="./assets/font-family/poppins-v21-latin-regular.woff2" fetchpriority="highest" as="font" crossorigin="">
+  <link rel="preload" href="./assets/font-family/poppins-v21-latin-600.woff2" fetchpriority="highest" as="font" crossorigin="">
+  <link rel="preload" href="./assets/font-family/poppins-v21-latin-700.woff2" fetchpriority="highest" as="font" crossorigin="">
   <style>
     /* poppins-regular - latin */
     @font-face {
@@ -75,8 +109,7 @@
             <input type="search" placeholder="What can we help you find today?" required="">
             <button type="submit" class="search-btn trip-btn">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M7.333 12.667A5.333 5.333 0 1 0 7.333 2a5.333 5.333 0 0 0 0 10.667ZM14 14l-2.9-2.9"
-                  stroke="#3D564A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M7.333 12.667A5.333 5.333 0 1 0 7.333 2a5.333 5.333 0 0 0 0 10.667ZM14 14l-2.9-2.9" stroke="#3D564A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
             </button>
           </form>
@@ -94,16 +127,14 @@
         </ul>
         <div class="toggle-slide-btn" onclick="toggleButtons()">
           <svg fill="#000" width="16" height="16" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM64 256c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z">
+            <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM64 256c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z">
             </path>
           </svg>
         </div>
         <div class="mob-search-btn">
           <span class="search-icon-flex">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M7.333 12.667A5.333 5.333 0 1 0 7.333 2a5.333 5.333 0 0 0 0 10.667ZM14 14l-2.9-2.9" stroke="#000"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M7.333 12.667A5.333 5.333 0 1 0 7.333 2a5.333 5.333 0 0 0 0 10.667ZM14 14l-2.9-2.9" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
           </span>
         </div>
@@ -114,8 +145,7 @@
             <li class="dropdown">
               <a href="#" class="link-active">What is My IP?</a>
               <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 448 512">
-                <path
-                  d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z">
+                <path d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z">
                 </path>
               </svg>
               <ul>
@@ -140,8 +170,7 @@
                 <li class="dropdown">
                   <a href="#">Budget</a>
                   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 448 512">
-                    <path
-                      d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z">
+                    <path d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z">
                     </path>
                   </svg>
                   <ul>
@@ -176,8 +205,7 @@
             </li>
             <div class="cancel-btn" onclick="toggleButtons()">
               <svg fill="#000" xmlns="http://www.w3.org/2000/svg" height="18" width="18" viewBox="0 0 384 512">
-                <path
-                  d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z">
+                <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z">
                 </path>
               </svg>
             </div>
@@ -188,123 +216,162 @@
   </header>
   <!-- header end -->
   <main>
+
+
     <div class="bg-img tools-page-bg">
       <div class="container">
         <div class="row">
           <p id="breadcrumbs"><span><span><a href="https://getassist.net/category/social-media/">Social
-                  Media</a></span> &gt; <span><a
-                  href="https://getassist.net/category/social-media/facebook/">Facebook</a></span> &gt; <span><a
-                  href="https://getassist.net/category/social-media/facebook/">Facebook</a></span></span>
+                  Media</a></span> &gt; <span><a href="https://getassist.net/category/social-media/facebook/">Facebook</a></span> &gt; <span><a href="https://getassist.net/category/social-media/facebook/">Facebook</a></span></span>
           </p>
+
           <div class="col-lg-12">
             <div class="tools-page-box-flex">
-              <div class="h4 mb-mob-0">Use the blacklist check tool</div>
-              <form action="">
-                <input type="text" class="" id="" placeholder="www.example.com" required>
+              <div class="h4 mb-mob-0">DNS Propagation Checker</div>
+
+
+              <form method="post">
+                <input type="text" name="domain_name" value="<?php if (isset($domain_name)) echo htmlspecialchars($domain_name); ?>" placeholder="example.com" required>
                 <div class="custom-select">
-                  <select>
-                    <option value="0">Google</option>
-                    <option value="1">New</option>
-                    <option value="2">Old</option>
-                    <option value="3">Recent</option>
+                  <select name="get_dns_type">
+                    <?php
+                    foreach ($dns_types as $value => $label) {
+                      $selected = ($dns_type == $value) ? 'selected="selected"' : '';
+                      echo "<option value=\"$value\" $selected>$label</option>";
+                    }
+                    ?>
                   </select>
                 </div>
+
                 <div class="btn-container-flex">
-                  <button class="secondry-btn btn-flex">
+                  <button class="secondry-btn btn-flex" name="dns_checker">
                     Search
-                    <svg width="14" height="14" fill="#fff" xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                      <path
-                        d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                    <svg width="14" height="14" fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                      <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
                     </svg>
                   </button>
                 </div>
               </form>
+
+
+
             </div>
           </div>
+
+
         </div>
       </div>
     </div>
+
+
+
     <div class="container mb-4">
-      <div class="single-page all-page">
-        <div class="row mb-4">
-          <div class="tab-flex">
-            <button class="tablinks actives " onclick="openCity(event, 'All')">All</button>
-            <button class="tablinks" onclick="openCity(event, 'IP Address Lookup')">IP Address Lookup</button>
-            <button class="tablinks" onclick="openCity(event, 'IP WHOIS Lookup')">IP WHOIS Lookup</button>
-            <button class="tablinks" onclick="openCity(event, 'DNS Lookup')">DNS Lookup</button>
-            <button class="tablinks" onclick="openCity(event, 'Internet Speed Test')">Internet Speed Test</button>
-            <button class="tablinks" onclick="openCity(event, 'Tools')">Tools</button>
-          </div>
-          <div id="All" class="tabcontent">
-            <h1>hey</h1>
-          </div>
-          <div id="IP Address Lookup" class="tabcontent">
-            <h1>hiii</h1>
-          </div>
-          <div id="IP WHOIS Lookup" class="tabcontent">
-            <h1>Hello</h1>
-          </div>
-          <div id="DNS Lookup" class="tabcontent">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias accusamus quod, reiciendis blanditiis
-              modi ullam maxime eligendi dolorum, corporis distinctio mollitia aperiam eius sit odio quos libero atque
-              eveniet voluptates.</p>
-          </div>
-          <div id="Internet Speed Test" class="tabcontent">
-            <p>Lorem lorem</p>
-          </div>
-          <div id="DNS Lookup" class="tabcontent">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias accusamus quod, reiciendis blanditiis
-              modi ullam maxime eligendi dolorum, corporis distinctio mollitia aperiam eius sit odio quos libero atque
-              eveniet voluptates.</p>
-          </div>
-          <div id="DNS " class="tabcontent">
-            <p> hdhdhd</p>
-          </div>
-          <div class="col-lg-6">
-            <div class="mb-3">
-              <div class="h5 mb-0">A Records</div>
-              <p>A records for <strong> getassist.net </strong></p>
-              <figure class="wp-block-table is-style-stripes">
-                <table>
-                  <thead>
+      <?php if (isset($dnsdata)) : ?>
+
+        <div class="single-page all-page">
+          <div class="row mb-4">
+            <div class="tab-flex">
+              <button class="tablinks actives " onclick="openCity(event, 'All')">All</button>
+              <button class="tablinks" onclick="openCity(event, 'IP Address Lookup')">IP Address Lookup</button>
+              <button class="tablinks" onclick="openCity(event, 'IP WHOIS Lookup')">IP WHOIS Lookup</button>
+              <button class="tablinks" onclick="openCity(event, 'DNS Lookup')">DNS Lookup</button>
+              <button class="tablinks" onclick="openCity(event, 'Internet Speed Test')">Internet Speed Test</button>
+              <button class="tablinks" onclick="openCity(event, 'Tools')">Tools</button>
+            </div>
+            <div id="All" class="tabcontent">
+              <h1>hey</h1>
+            </div>
+            <div id="IP Address Lookup" class="tabcontent">
+              <h1>hiii</h1>
+            </div>
+            <div id="IP WHOIS Lookup" class="tabcontent">
+              <h1>Hello</h1>
+            </div>
+            <div id="DNS Lookup" class="tabcontent">
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias accusamus quod, reiciendis blanditiis
+                modi ullam maxime eligendi dolorum, corporis distinctio mollitia aperiam eius sit odio quos libero atque
+                eveniet voluptates.</p>
+            </div>
+            <div id="Internet Speed Test" class="tabcontent">
+              <p>Lorem lorem</p>
+            </div>
+            <div id="DNS Lookup" class="tabcontent">
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias accusamus quod, reiciendis blanditiis
+                modi ullam maxime eligendi dolorum, corporis distinctio mollitia aperiam eius sit odio quos libero atque
+                eveniet voluptates.</p>
+            </div>
+            <div id="DNS " class="tabcontent">
+              <p> hdhdhd</p>
+            </div>
+            <div class="col-lg-6">
+              <div class="mb-3">
+                <div class="h5 mb-0">A Records</div>
+                <p>A records for <strong> <?php echo $domain_url; ?> </strong></p>
+
+                <figure class="wp-block-table is-style-stripes">
+                  <table>
                     <tr>
-                      <th>Record</th>
-                      <th>Type</th>
-                      <th>Value</th>
-                      <th>TTL</th>
+                      <?php foreach ($dnsdata as $record) :
+                        foreach ($record as $key => $value) : ?>
+                          <th><?php echo $key; ?></th>
+                        <?php endforeach; ?>
+                      <?php endforeach; ?>
                     </tr>
-                  </thead>
-                  <tbody>
                     <tr>
-                      <td>getassist.net</td>
-                      <td>A</td>
-                      <td>13.57.76.228</td>
-                      <td>598</td>
+                      <?php foreach ($dnsdata as $record) :
+                        foreach ($record as $key => $value) : ?>
+                          <td><?php echo $value; ?></td>
+                        <?php endforeach; ?>
+                      <?php endforeach; ?>
                     </tr>
-                  </tbody>
-                </table>
-              </figure>
-              <div class="btn-container-flex">
-                <a href="#" class="secondry-btn margin-left btn-flex">
-                  Show results globally
-                </a>
+
+                  </table>
+
+                </figure>
+
+                <div class="btn-container-flex">
+                  <a href="#" class="secondry-btn margin-left btn-flex">
+                    Show results globally
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="dark-table-flex">
+                <span> id 48613, opcode QUERY, rcode NOERROR, flags QR RD RA</span <span>;QUESTION</span>
+                <span>getassist.net. IN A</span>
+                <span><strong>;ANSWER</strong></span>
+                <span><strong>getassist.net. 598 IN A 13.57.76.228</strong></span>
+                <span>;AUTHORITY</span>
+                <span>;ADDITIONAL</span>
               </div>
             </div>
           </div>
-          <div class="col-lg-6">
-            <div class="dark-table-flex">
-              <span> id 48613, opcode QUERY, rcode NOERROR, flags QR RD RA</span <span>;QUESTION</span>
-              <span>getassist.net. IN A</span>
-              <span><strong>;ANSWER</strong></span>
-              <span><strong>getassist.net. 598 IN A 13.57.76.228</strong></span>
-              <span>;AUTHORITY</span>
-              <span>;ADDITIONAL</span>
+        </div>
+      <?php else : ?>
+        <?php if (isset($message)) { ?>
+          <div class="single-page all-page">
+            <div class="tool-error-box">
+              <?php echo $message; ?>
+              <img src="assets/img/tool-error.svg" alt="" class="img-fluid tool-error-img">
             </div>
           </div>
-        </div>
-      </div>
+        <?php  } ?>
+      <?php endif ?>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="container">
       <div class="row mb-3">
         <div class="h2">IP Address Blacklist Check Blacklists for Your IP</div>
@@ -331,9 +398,7 @@
         </div>
         <div class="col-lg-4 mb-3">
           <span>
-            <img
-              src="https://plus.unsplash.com/premium_photo-1677564923729-5eeacd594495?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="" class="img-fluid">
+            <img src="https://plus.unsplash.com/premium_photo-1677564923729-5eeacd594495?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" class="img-fluid">
           </span>
         </div>
         <div class="col-lg-12">
@@ -383,9 +448,7 @@
         </div>
         <div class="col-lg-4">
           <span>
-            <img
-              src="https://plus.unsplash.com/premium_photo-1677564923729-5eeacd594495?q=80&amp;w=1548&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="" class="img-fluid">
+            <img src="https://plus.unsplash.com/premium_photo-1677564923729-5eeacd594495?q=80&amp;w=1548&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" class="img-fluid">
           </span>
         </div>
         <div class="col-lg-8 all-page">
@@ -502,9 +565,7 @@
   <div id="progress">
     <span id="progress-value">
       <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M8.134.366a1.25 1.25 0 0 0-1.768 0l-6 6a1.25 1.25 0 1 0 1.768 1.768L6 4.268V17.25a1.25 1.25 0 1 0 2.5 0V4.268l3.866 3.866a1.25 1.25 0 0 0 1.768-1.768z"
-          fill="#000"></path>
+        <path d="M8.134.366a1.25 1.25 0 0 0-1.768 0l-6 6a1.25 1.25 0 1 0 1.768 1.768L6 4.268V17.25a1.25 1.25 0 1 0 2.5 0V4.268l3.866 3.866a1.25 1.25 0 0 0 1.768-1.768z" fill="#000"></path>
       </svg>
     </span>
   </div>
@@ -621,8 +682,7 @@
                 <a href="#">
                   <svg fill="#000" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                     <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                      d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141m0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7m146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8m76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8M398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1">
+                    <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141m0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7m146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8m76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8M398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1">
                     </path>
                   </svg>
                 </a>
@@ -631,8 +691,7 @@
                 <a href="#">
                   <svg fill="#000" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                     <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                      d="M100.3 448H7.4V148.9h92.9zM53.8 108.1C24.1 108.1 0 83.5 0 53.8a53.8 53.8 0 0 1 107.6 0c0 29.7-24.1 54.3-53.8 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z">
+                    <path d="M100.3 448H7.4V148.9h92.9zM53.8 108.1C24.1 108.1 0 83.5 0 53.8a53.8 53.8 0 0 1 107.6 0c0 29.7-24.1 54.3-53.8 54.3zM447.9 448h-92.7V302.4c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3V448z">
                     </path>
                   </svg>
                 </a>
@@ -641,8 +700,7 @@
                 <a href="#">
                   <svg fill="#000" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                     <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                      d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z">
+                    <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z">
                     </path>
                   </svg>
                 </a>
@@ -651,8 +709,7 @@
                 <a href="#">
                   <svg fill="#000" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                     <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                      d="M80 299.3V512h116V299.3h86.5l18-97.8H196v-34.6c0-51.7 20.3-71.5 72.7-71.5 16.3 0 29.4.4 37 1.2V7.9C291.4 4 256.4 0 236.2 0 129.3 0 80 50.5 80 159.4v42.1H14v97.8z">
+                    <path d="M80 299.3V512h116V299.3h86.5l18-97.8H196v-34.6c0-51.7 20.3-71.5 72.7-71.5 16.3 0 29.4.4 37 1.2V7.9C291.4 4 256.4 0 236.2 0 129.3 0 80 50.5 80 159.4v42.1H14v97.8z">
                     </path>
                   </svg>
                 </a>
@@ -681,4 +738,3 @@
 </body>
 
 </html>
-</div>
