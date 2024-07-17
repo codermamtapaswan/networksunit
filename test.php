@@ -1,7 +1,9 @@
 <?php
 
 // Include the Composer autoloader
-require '/netdns2/Net/DNS2.php';
+require '/netdns2/Net/DNS2/Reslover.php';
+require '/netdns2/Net/DNS2/Packet.php';
+
 
 use Net_DNS2\Resolver;
 use Net_DNS2\Packet;
