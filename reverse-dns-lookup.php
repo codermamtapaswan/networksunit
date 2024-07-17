@@ -1,31 +1,33 @@
 <?php
+
+
 $dns_types = [
   "DNS_A" => "A",
+  "DNS_AAAA" => "AAAA",
   "DNS_CNAME" => "CNAME",
-  "DNS_HINFO" => "HINFO",
   "DNS_CAA" => "CAA",
   "DNS_MX" => "MX",
   "DNS_NS" => "NS",
   "DNS_PTR" => "PTR",
   "DNS_SOA" => "SOA",
   "DNS_TXT" => "TXT",
-  "DNS_AAAA" => "AAAA",
-  "DNS_SRV" => "SRV",
-  "DNS_NAPTR" => "NAPTR",
-  "DNS_A6" => "A6",
-  "DNS_ALL" => "ALL",
-  "DNS_ANY" => "ANY (default)"
 ];
+
 if (isset($_POST['dns_checker'])) {
   $domain_name = $_POST['domain_name'];
   $get_dns_type = $_POST['get_dns_type'];
+
+
   // Regular expression for validating a domain name
   $domain_regex = "/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/";
 
   if (preg_match($domain_regex, $domain_name)) {
     $dnsdata = dns_get_record($domain_name, constant($get_dns_type));
-    if (!$dnsdata) {
+    if (!$dnsdata || $dnsdata===false ) {
       $message = " No Data !";
+    }
+    if (!$get_dns_type) {
+      $message = " DNS  !";
     }
   } else {
     $message = '<span class="ip-address h4">' . $domain_name . '</span>is Not a valid Domain Name!';
@@ -236,7 +238,7 @@ if (isset($_POST['dns_checker'])) {
                   <select name="get_dns_type">
                     <?php
                     foreach ($dns_types as $value => $label) {
-                      $selected = ($dns_type == $value) ? 'selected="selected"' : '';
+                      $selected = ($get_dns_type == $value) ? 'selected="selected"' : '';
                       echo "<option value=\"$value\" $selected>$label</option>";
                     }
                     ?>
@@ -269,61 +271,49 @@ if (isset($_POST['dns_checker'])) {
       <?php if (isset($dnsdata)) : ?>
 
         <div class="single-page all-page">
-          <div class="row mb-4">
-            <div class="tab-flex">
-              <button class="tablinks actives " onclick="openCity(event, 'All')">All</button>
-              <button class="tablinks" onclick="openCity(event, 'IP Address Lookup')">IP Address Lookup</button>
-              <button class="tablinks" onclick="openCity(event, 'IP WHOIS Lookup')">IP WHOIS Lookup</button>
-              <button class="tablinks" onclick="openCity(event, 'DNS Lookup')">DNS Lookup</button>
-              <button class="tablinks" onclick="openCity(event, 'Internet Speed Test')">Internet Speed Test</button>
-              <button class="tablinks" onclick="openCity(event, 'Tools')">Tools</button>
-            </div>
-            <div id="All" class="tabcontent">
-              <h1>hey</h1>
-            </div>
-            <div id="IP Address Lookup" class="tabcontent">
-              <h1>hiii</h1>
-            </div>
-            <div id="IP WHOIS Lookup" class="tabcontent">
-              <h1>Hello</h1>
-            </div>
-            <div id="DNS Lookup" class="tabcontent">
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias accusamus quod, reiciendis blanditiis
-                modi ullam maxime eligendi dolorum, corporis distinctio mollitia aperiam eius sit odio quos libero atque
-                eveniet voluptates.</p>
-            </div>
-            <div id="Internet Speed Test" class="tabcontent">
-              <p>Lorem lorem</p>
-            </div>
-            <div id="DNS Lookup" class="tabcontent">
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias accusamus quod, reiciendis blanditiis
-                modi ullam maxime eligendi dolorum, corporis distinctio mollitia aperiam eius sit odio quos libero atque
-                eveniet voluptates.</p>
-            </div>
-            <div id="DNS " class="tabcontent">
-              <p> hdhdhd</p>
-            </div>
+          <div class="row mb-4">           
             <div class="col-lg-6">
               <div class="mb-3">
                 <div class="h5 mb-0">A Records</div>
-                <p>A records for <strong> <?php echo $domain_url; ?> </strong></p>
+                <p>A records for <strong> <?php echo $domain_name; ?> </strong></p>
 
                 <figure class="wp-block-table is-style-stripes">
                   <table>
-                    <tr>
-                      <?php foreach ($dnsdata as $record) :
-                        foreach ($record as $key => $value) : ?>
-                          <th><?php echo $key; ?></th>
-                        <?php endforeach; ?>
-                      <?php endforeach; ?>
+                  <tr>
+                      <th>Host</th>
+                      <th>Record</th>
+                      <th>Value</th>
+                      <!-- <th>TTL</th> -->
                     </tr>
-                    <tr>
+                    
                       <?php foreach ($dnsdata as $record) :
-                        foreach ($record as $key => $value) : ?>
+                        // echo "<pre>";
+                        //   print_r($record); 
+                          if (isset($record['ip'])) {
+                            $value=$record['ip'];
+                          }
+                          if (isset($record['txt'])) {
+                              $value=$record['txt'];
+                          }
+                          if (isset($record['target'])) {
+                              $value=$record['target'];
+                          }
+                         
+                          if (isset($record['mname'])) {
+                              $value=$record['mname'];
+                          }
+                        
+                         
+                          
+                          ?>
+                          <tr>
+                          <td><?php echo $record['host']; ?></td>
+                          <td><?php echo $record['type']; ?></td>                          
                           <td><?php echo $value; ?></td>
-                        <?php endforeach; ?>
+                          <!-- <td><?php //echo $record['ttl']; ?></td> -->
+                          </tr>
                       <?php endforeach; ?>
-                    </tr>
+                   
 
                   </table>
 
