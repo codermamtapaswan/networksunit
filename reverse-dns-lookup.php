@@ -23,7 +23,7 @@ if (isset($_POST['dns_checker'])) {
 
   if (preg_match($domain_regex, $domain_name)) {
     $dnsdata = dns_get_record($domain_name, constant($get_dns_type));
-    if (!$dnsdata || $dnsdata===false ) {
+    if (!$dnsdata) {
       $message = " No Data !";
     }
     if (!$get_dns_type) {
@@ -301,6 +301,9 @@ if (isset($_POST['dns_checker'])) {
                          
                           if (isset($record['mname'])) {
                               $value=$record['mname'];
+                          }
+                          if (isset($record['ipv6'])) {
+                              $value=$record['ipv6'];
                           }
                         
                          
