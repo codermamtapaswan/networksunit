@@ -1,14 +1,29 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $ip_address = $_POST['ip_address'];
+function pingDomain($domain, $count, $env = 'windows')
+{
 
-  if (filter_var($ip_address, FILTER_VALIDATE_IP)) {
-    $reverse_dns = gethostbyaddr($ip_address);
-    if (!$reverse_dns) {
-      $message = 'Reverse DNS lookup failed. Please try again.';
+  $countOption = '-n';
+  if ($env === 'linux') {
+    $countOption = '-c';
+  }
+
+  exec("ping $countOption $count " . escapeshellarg($domain), $output, $var); // Ping specified number of times
+  return $output;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $domain = $_POST['domain'];
+  $count = $_POST['count'];
+
+  // Input validation
+  if (filter_var($domain, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
+    $pingResultArr = pingDomain($domain, $count);
+    $pingResult = implode("\n", $pingResultArr);
+    if (!$pingResult) {
+      $message = "No results yet. Please enter a domain and click 'Check'.";
     }
   } else {
-    $message = '<span class="ip-address h2">' . htmlspecialchars($ip_address) . '</span> is not a valid IP address.';
+    $message = "Invalid domain name provided.";
   }
 }
 
@@ -21,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reverse Dns Lookup</title>
+  <title>Ping Domain Checker</title>
   <link rel="preload" href="./assets/font-family/poppins-v21-latin-regular.woff2" fetchpriority="highest" as="font" crossorigin="">
   <link rel="preload" href="./assets/font-family/poppins-v21-latin-600.woff2" fetchpriority="highest" as="font" crossorigin="">
   <link rel="preload" href="./assets/font-family/poppins-v21-latin-700.woff2" fetchpriority="highest" as="font" crossorigin="">
@@ -206,11 +221,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </p>
           <div class="col-lg-12">
             <div class="tools-page-box-flex">
-              <div class="h4 mb-mob-0">Reverse Dns Lookup</div>
+              <div class="h4 mb-mob-0">Ping IP or Domain Checker</div>
               <form method="post">
-                <input type="text" id="ip_address" name="ip_address" value="<?php if (isset($_POST['ip_address'])) echo htmlspecialchars($_POST['ip_address']); ?>" placeholder="IP Address:" required>
+                <input type="text" id="domain" name="domain" value="<?php if (isset($_POST['domain'])) echo htmlspecialchars($_POST['domain']); ?>" placeholder="Enter Domain or IP Address:" required>
+                <input type="number" id="count" name="count" value="<?php if (isset($_POST['count'])) echo htmlspecialchars($_POST['count']);
+                                                                    else echo '4'; ?>" min="1" required>
                 <div class="btn-container-flex" type="submit">
-                  <button class="secondry-btn btn-flex">Check Now</button>
+                  <button class="secondry-btn btn-flex">Check</button>
                 </div>
               </form>
             </div>
@@ -219,41 +236,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </div>
 
-
-
-
     <div class="container mb-4">
-      <?php if (isset($reverse_dns)) : ?>
+      <?php if (isset($pingResult)) : ?>
         <div class="single-page all-page">
-          <div class="output-box-center col-lg-6 ip-ping">
-            <span class="copy-text"><?php echo $reverse_dns; ?></span>
-            <span class="copyboard">
-              <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z" />
-              </svg>
-            </span>
+          <div class="output-box-center col-lg-9">
+            <div class="h4">Ping results for <?php echo htmlspecialchars($domain) . " ($count requests)" ?>:</div>
+            <pre><?php echo htmlspecialchars($pingResult); ?></pre>
           </div>
         </div>
-      <?php else : ?>
-        <?php if (isset($message)) : ?>
-          <div class="single-page all-page tool-page">
-            <div class="tool-error-box">
-              <?php echo $message; ?>
-              <img src="assets/img/tool-error.svg" alt="" class="img-fluid tool-error-img">
-            </div>
+      <?php elseif (isset($message)) : ?>
+        <div class="single-page all-page tool-page">
+          <div class="tool-error-box">
+            <?php echo htmlspecialchars($message); ?>
+            <img src="assets/img/tool-error.svg" alt="" class="img-fluid tool-error-img">
           </div>
-        <?php endif; ?>
+        </div>
       <?php endif; ?>
     </div>
+
+
 
 
     <div class="container">
       <div class="row mb-4">
         <div class="h2">IP Address Blacklist Check Blacklists for Your IP</div>
-        <p>Use this tool to check an IP address against the most common blacklist databases. If you believe a
-          blacklist or
-          blocklist wrongfully added your IP address or mail server, this test helps you confirm and determine
-          what to do
+        <p>Use this tool to check an IP address against the most common blacklist databases. If you believe a blacklist or
+          blocklist wrongfully added your IP address or mail server, this test helps you confirm and determine what to do
           next.</p>
       </div>
     </div>
@@ -261,18 +269,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="row mb-4">
         <div class="col-lg-8">
           <div class="h2">What is a blacklist check?</div>
-          <p>If you Google "blacklist check," you'll get a variety of results, from the MX blacklist lookup to
-            RBL
-            lookups that provide blacklisted domains. But an IP address blacklist check, or IP address
-            blocklist check,
-            is essentially an IP reputation check. The procedure shows if a URL or IP address entered aligns
-            with a
+          <p>If you Google "blacklist check," you'll get a variety of results, from the MX blacklist lookup to RBL
+            lookups that provide blacklisted domains. But an IP address blacklist check, or IP address blocklist check,
+            is essentially an IP reputation check. The procedure shows if a URL or IP address entered aligns with a
             domain name server blacklist (DNSBL).
           </p>
-          <p>There are dozens of DNSBLs online, all using different criteria for listing and delisting
-            addresses.
-            However, the DNSBLs consider any IP addresses that exist on the lists a source of spam,
-            resulting in the
+          <p>There are dozens of DNSBLs online, all using different criteria for listing and delisting addresses.
+            However, the DNSBLs consider any IP addresses that exist on the lists a source of spam, resulting in the
             blocking of those addresses and their inability to send emails.
           </p>
         </div>
@@ -282,19 +285,158 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </span>
         </div>
         <div class="col-lg-12">
-          <p>Spam filters utilize various DNSBLs to verify that incoming emails do not come from blacklisted
-            sites,
-            which would be a red flag. These domain name server blocklists are generally the first line of
-            defense
-            against IPs or domains sending spam. However, in some cases, the domain blacklist database adds
-            addresses
-            that don’t send spam. Users can utilize the free blacklist IP checker to find if the database
-            wrongfully
+          <p>Spam filters utilize various DNSBLs to verify that incoming emails do not come from blacklisted sites,
+            which would be a red flag. These domain name server blocklists are generally the first line of defense
+            against IPs or domains sending spam. However, in some cases, the domain blacklist database adds addresses
+            that don’t send spam. Users can utilize the free blacklist IP checker to find if the database wrongfully
             blocked their IP address.</p>
         </div>
       </div>
     </div>
-
+    <div class="tools-bg-flex mb-5">
+      <div class="container">
+        <div class="row">
+          <div class="h2">How do I check if my IP is blacklisted?</div>
+          <p>Check blacklists for your IP address by entering the address into the tool above. If you don't know your IP
+            address, the What's My IP address homepage shows you your IP address and its details. It also lets you
+            conveniently copy and paste your IP into this tool to run a scan.
+          </p>
+          <p>The IP blacklist checker tool will search IP blacklist sites and report a table of various blacklists. It
+            lists the block status of each of your server IP addresses.
+          </p>
+          <p>Domain name blacklists don’t notify users when their IP address goes on a blocklist. Users need to check name
+            blacklists to find their status.
+          </p>
+          <p class="mb-0">Therefore, blacklist checks are essential for users, mail servers, or businesses who believe that they have a
+            blacklisted IP address. If your IP is blocked, you'll show up on the list. Using the tool above is the easiest
+            way to check for blocked IPs.</p>
+        </div>
+      </div>
+    </div>
+    <div class="container mb-4">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="h2">What causes IP blacklisting?</div>
+          <p>Blocklists add IP addresses for many reasons. The intention is to protect other websites and users from
+            dangerous IP addresses. However, sometimes blocklists wrongfully list other IPs on the list. Therefore, a
+            normal, safe IP is blocked. Then, a user who hasn't done anything wrong will see their address in an IP block
+            lookup.</p>
+          <p>You may do a blacklist check online and find your own IP on a blacklist. A blacklist typically adds an IP for
+            the following reasons:</p>
+        </div>
+        <div class="col-lg-4">
+          <span>
+            <img src="https://plus.unsplash.com/premium_photo-1677564923729-5eeacd594495?q=80&amp;w=1548&amp;auto=format&amp;fit=crop&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" class="img-fluid">
+          </span>
+        </div>
+        <div class="col-lg-8 all-page">
+          <ul class="mb-0">
+            <li>The IP appears to be the source of spam messaging</li>
+            <li>The IP associates with a website containing inappropriate or dangerous content</li>
+            <li>Your device has a malware infection, which then could spread to other devices on the network</li>
+            <li>You accessed the dark web or other illegal trading sources with the IP</li>
+            <li>Your device has a malware infection, which then could spread to other devices on the network</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row mb-5">
+        <div class="h2">Blacklisting websites for spam protection</div>
+        <p>As mentioned above, domain name server blocklists are the primary defense against spam as they block IP
+          addresses believed to be spam accounts. However, there are also spam uniform resource identifier blocklists
+          (SURBLs) that serve as backup defenses. These blacklists note websites that appear in unsolicited emails.
+          However, not all email spam filters have the capacity to use them.</p>
+        <p>Spam filters that can utilize the SURBLs scan the body text of emails, extract any website addresses present,
+          and check them against blacklists. If the server finds an address, it flags the message as spam and handles it
+          accordingly.</p>
+        <p class="mb-0">Since both methods filter spam differently, they are most effective when combined. Unfortunately, as spammers
+          become more clever, there is no method capable of catching every spam message. Users must be vigilant in
+          checking their own inboxes and educating</p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="seperator-flex">
+        <div class="small-head">Networksunit Tools</div>
+        <div class="big-head"> Unrelenting power with every single package</div>
+        <p>Organizations are now compelled to complete comprehensive cybersecurity strategies to safeguard their systems, networks.</p>
+      </div>
+      <div class="row mb-4">
+        <div class="col-lg-3 mb-3 col-md-6">
+          <div class="tools-box-flex">
+            <div>
+              <img src="./assets/img/IP Address Lookup.svg" alt="" class="img-fluid">
+            </div>
+            <a href="#">IP Address Lookup</a>
+            <p class="truncate">It is a long established fact that a reader will be distracted by the rea</p>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-3 col-md-6">
+          <div class="tools-box-flex">
+            <div>
+              <img src="./assets/img/IP Who is Lookup.svg" alt="" class="img-fluid">
+            </div>
+            <a href="#">IP Who is Lookup</a>
+            <p class="truncate">It is a long established fact that a reader will be distracted by the rea</p>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-3 col-md-6">
+          <div class="tools-box-flex">
+            <div>
+              <img src="./assets/img/DNS Lookup.svg" alt="" class="img-fluid">
+            </div>
+            <a href="#">DNS Lookup</a>
+            <p class="truncate">It is a long established fact that a reader will be distracted by the rea</p>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-3 col-md-6">
+          <div class="tools-box-flex">
+            <div>
+              <img src="./assets/img/Port Scanner.svg" alt="" class="img-fluid">
+            </div>
+            <a href="#">Port Scanner</a>
+            <p class="truncate">It is a long established fact that a reader will be distracted by the rea</p>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-3 col-md-6">
+          <div class="tools-box-flex">
+            <div>
+              <img src="./assets/img/Password Generator.svg" alt="" class="img-fluid">
+            </div>
+            <a href="#">Password Generator</a>
+            <p class="truncate">It is a long established fact that a reader will be distracted by the rea</p>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-3 col-md-6">
+          <div class="tools-box-flex">
+            <div>
+              <img src="./assets/img/Data Breach Check.svg" alt="" class="img-fluid">
+            </div>
+            <a href="#">Data Breach Check</a>
+            <p class="truncate">It is a long established fact that a reader will be distracted by the rea</p>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-3 col-md-6">
+          <div class="tools-box-flex">
+            <div>
+              <img src="./assets/img/User Agent.svg" alt="" class="img-fluid">
+            </div>
+            <a href="#">User Agent</a>
+            <p class="truncate">It is a long established fact that a reader will be distracted by the rea</p>
+          </div>
+        </div>
+        <div class="col-lg-3 mb-3 col-md-6">
+          <div class="tools-box-flex">
+            <div>
+              <img src="./assets/img/Screen Resolution.svg" alt="" class="img-fluid">
+            </div>
+            <a href="#">Screen Resolution</a>
+            <p class="truncate">It is a long established fact that a reader will be distracted by the rea</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
   </main>
   <div id="progress">
     <span id="progress-value">
