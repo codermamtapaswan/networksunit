@@ -1,8 +1,9 @@
 <?php
 
-require_once 'ip-lib/ip-lib.php';
 require_once 'ipdata.php';
 
+
+$mdetect = new MobileDetect();
 if ($mdetect->isMobile()) {
   // Detect mobile/tablet  
   if ($mdetect->isTablet()) {
@@ -21,22 +22,19 @@ if ($mdetect->isMobile()) {
   $client_device =  'Desktop';
 }
 
-// -----------
+$client_browser = get_browser_name($_SERVER['HTTP_USER_AGENT']);
 
+$clientIPs  =  getClientIPs();
 
-// $ipv4 = \IPLib\Address\IPv4::parseString($_SERVER['REMOTE_ADDR']);
-// if ($ipv4 !== null) {
-//   echo "Client IPv4 address: " . $ipv4 . "<br>";
-// } else {
-//   echo "Client IPv4 address: Not available<br>";
-// }
+$ipv4 = implode(', ', $clientIPs['ipv4']);
+if(!$ipv4){
+  $message = "Not Dected!";
+}
+$ipv6 = implode(', ', $clientIPs['ipv6']);
+if(!$ipv6){
+  $message = "Not Dected!";
+}
 
-// $ipv6 = \IPLib\Address\IPv6::parseString($_SERVER['REMOTE_ADDR']);
-// if ($ipv6 !== null) {
-//   echo "Client IPv6 address: " . $ipv6 . "<br>";
-// } else {
-//   echo "Client IPv6 address: Not available<br>";
-// }
 
 
 
@@ -236,9 +234,7 @@ if ($mdetect->isMobile()) {
 
 
 
-
-
-    <div class="overlay-part-flex mb-5">
+  <div class="overlay-part-flex mb-5">
       <div class="container">
         <div class="small-head-flex">
           <svg width="16" height="16" fill="#ff7800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
@@ -247,8 +243,24 @@ if ($mdetect->isMobile()) {
           What is my IP ?
         </div>
         <div class="ip-section-flex">
-          <div class="ip-title">My Public IPv4 : <span class="main-ip"> 103.185.204.175</span></div>
-          <div class="small-title">My Public IPv6 : <span class="main-ip"> 103.185.204.175</span></div>
+          <div class="ip-title">My Public IPv4 :
+            <span class="main-ip">
+              <?php if(isset($ipv4) || isset($message)){
+                echo $ipv4;
+                echo $message;
+                } ?>
+            </span>
+          </div>
+          
+          <div class="small-title">My Public IPv6 :
+             <span class="main-ip">
+              <?php if(isset($ipv4) || isset($message)){
+                echo $ipv4;
+                echo $message;
+                } ?>
+            </span>
+          </div>
+
           <div class="ip-seperator-flex">
 
             <?php if (isset($client_browser)) { ?>
@@ -267,6 +279,8 @@ if ($mdetect->isMobile()) {
         </div>
       </div>
     </div>
+
+
 
 
 

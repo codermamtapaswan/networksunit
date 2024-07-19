@@ -1,9 +1,37 @@
-<!-- https://www.ipvoid.com/ip-blacklist-check/
-https://dnschecker.org/ip-blacklist-checker.php
-https://mxtoolbox.com/blacklists.aspx
-https://gist.github.com/tbreuss/74da96ff5f976ce770e6628badbd7dfc
-https: //stackoverflow.com/questions/50738236/php-blocking-visitors-based-on-text-list-of-ips
-https://blog.ip2location.com/knowledge-base/lookup-ip-address-in-bulk-using-php-and-mysql-database/ -->
+
+<?php
+
+function ipaddress_to_ipnumber(string $ipaddress) {
+    $pton = @inet_pton($ipaddress);
+    if (!$pton) { return false; }
+  $number = '';
+  foreach (unpack('C*', $pton) as $byte) {
+    $number .= str_pad(decbin($byte), 8, '0', STR_PAD_LEFT);
+  }
+  return base_convert(ltrim($number, '0'), 2, 10);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $ip_address = $_POST['ip_address'];
+
+
+  if (filter_var($ip_address, FILTER_VALIDATE_IP)) {
+    $decimal_number = ipaddress_to_ipnumber($ip_address);
+    if (!$decimal_number) {
+      $message = 'Some Thing went wrong! Try Again!';
+    }
+  } else {
+    $message = '<span class="ip-address h2">' . htmlspecialchars($ip_address) . '</span> is not a valid IP address.';
+  }
+}
+
+// echo ipaddress_to_ipnumber('0000:0000:0000:0000:0000:ffff:ac69:3c47');
+// echo ipaddress_to_ipnumber('10.0.0.1');
+// // returns 167772161
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -195,13 +223,10 @@ https://blog.ip2location.com/knowledge-base/lookup-ip-address-in-bulk-using-php-
           </p>
           <div class="col-lg-12">
             <div class="tools-page-box-flex">
-              <div class="h4 mb-mob-0">Use the blacklist check tool to disclose the reputation of an IPv4.</div>
-              <form action="">
-                <input type="text" class="" id="" placeholder="Enter IPv4 Address Here" required>
-                <div class="btn-container-flex">
-                  <button class="secondry-btn btn-flex">
-                    Lookup
-                  </button>
+              <div class="h4 mb-mob-0">IP to Decimal Conversion Tool</div>
+              <form method="post">
+              <input type="text" id="ip_address" name="ip_address" value="<?php if (isset($_POST['ip_address'])) echo htmlspecialchars($_POST['ip_address']); ?>" placeholder="Enter IPv4 or IPv6 IP Address:" required>
+                <div class="btn-container-flex"><button class="secondry-btn btn-flex">Convert</button>
                 </div>
               </form>
             </div>
@@ -212,60 +237,32 @@ https://blog.ip2location.com/knowledge-base/lookup-ip-address-in-bulk-using-php-
 
 
 
-
     <div class="container mb-4">
-      <div class="single-page all-page">
-        <div class="row mb-4">
-          <div class="col-lg-12">
-            <figure class="wp-block-table is-style-stripes">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Is Blacklisted?</th>
-                    <th>Blacklist Name</th>
-                    <th>BlackList Host</th>
-                    <th>TTL</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>getassist.net</td>
-                    <td>0spam DNSBL</td>
-                    <td>0spam.fusionzero.com</td>
-                    <td><svg class="copyboard" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                        <path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z" />
-                      </svg></td>
-                  </tr>
-                  <tr>
-                    <td>getassist.net</td>
-                    <td>0spam DNSBL</td>
-                    <td>0spam.fusionsecond.com</td>
-                    <td><svg class="copyboard" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                        <path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z" />
-                      </svg></td>
-                  </tr>
-                  <tr>
-                    <td>getassist.net</td>
-                    <td>0spam DNSBL</td>
-                    <td>0spam.fusionzero.com</td>
-                    <td><svg class="copyboard" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                        <path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z" />
-                      </svg></td>
-                  </tr>
-                </tbody>
-              </table>
-            </figure>
-            <div class="btn-container-flex">
-              <a href="#" class="secondry-btn btn-flex">
-                Copy All
-                <a href="#" class="secondry-btn btn-flex">
-                  Print Report
-                </a>
-            </div>
+      <?php if (isset($decimal_number)) : ?>
+        <div class="single-page all-page">
+          <div class="output-box-center col-lg-6 ip-ping">
+            <span class="copy-text"><?php echo $decimal_number; ?></span>
+            <span class="copyboard">
+              <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path d="M384 336H192c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16l140.1 0L400 115.9V320c0 8.8-7.2 16-16 16zM192 384H384c35.3 0 64-28.7 64-64V115.9c0-12.7-5.1-24.9-14.1-33.9L366.1 14.1c-9-9-21.2-14.1-33.9-14.1H192c-35.3 0-64 28.7-64 64V320c0 35.3 28.7 64 64 64zM64 128c-35.3 0-64 28.7-64 64V448c0 35.3 28.7 64 64 64H256c35.3 0 64-28.7 64-64V416H272v32c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192c0-8.8 7.2-16 16-16H96V128H64z" />
+              </svg>
+            </span>
           </div>
         </div>
-      </div>
+      <?php else : ?>
+        <?php if (isset($message)) : ?>
+          <div class="single-page all-page tool-page">
+            <div class="tool-error-box">
+              <?php echo $message;?>
+              <img src="assets/img/tool-error.svg" alt="" class="img-fluid tool-error-img">
+            </div>
+          </div>
+        <?php endif; ?>
+      <?php endif; ?>
     </div>
+
+
+
     <div class="container">
       <div class="row mb-4">
         <div class="h2">IP Address Blacklist Check Blacklists for Your IP</div>

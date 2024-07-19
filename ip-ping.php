@@ -6,8 +6,8 @@ function pingDomain($domain, $count, $env = 'windows')
   if ($env === 'linux') {
     $countOption = '-c';
   }
-
-  exec("ping $countOption $count " . escapeshellarg($domain), $output, $var); // Ping specified number of times
+ // Ping specified number of times
+  exec("ping $countOption $count " . escapeshellarg($domain), $output, $var);
   return $output;
 }
 
@@ -224,8 +224,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <div class="h4 mb-mob-0">Ping IP or Domain Checker</div>
               <form method="post">
                 <input type="text" id="domain" name="domain" value="<?php if (isset($_POST['domain'])) echo htmlspecialchars($_POST['domain']); ?>" placeholder="Enter Domain or IP Address:" required>
-                <input type="number" id="count" name="count" value="<?php if (isset($_POST['count'])) echo htmlspecialchars($_POST['count']);
-                                                                    else echo '4'; ?>" min="1" required>
+                <input type="number" id="count" name="count" value="<?php if (isset($_POST['count'])) echo htmlspecialchars($_POST['count']);?>" min="1" required>
                 <div class="btn-container-flex" type="submit">
                   <button class="secondry-btn btn-flex">Check</button>
                 </div>
@@ -239,7 +238,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container mb-4">
       <?php if (isset($pingResult)) : ?>
         <div class="single-page all-page">
-          <div class="output-box-center col-lg-9">
+          <div class="col-lg-12">
             <div class="h4">Ping results for <?php echo htmlspecialchars($domain) . " ($count requests)" ?>:</div>
             <pre><?php echo htmlspecialchars($pingResult); ?></pre>
           </div>
@@ -260,7 +259,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
       <div class="row mb-4">
         <div class="h2">IP Address Blacklist Check Blacklists for Your IP</div>
-        <p>Use this tool to check an IP address against the most common blacklist databases. If you believe a blacklist or
+        <p>Use this tool to check an IP address against the most common blacklist databases. If you believe a blacklist or
           blocklist wrongfully added your IP address or mail server, this test helps you confirm and determine what to do
           next.</p>
       </div>

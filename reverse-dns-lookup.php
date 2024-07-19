@@ -220,8 +220,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
 
-
-
     <div class="container mb-4">
       <?php if (isset($reverse_dns)) : ?>
         <div class="single-page all-page">
@@ -296,6 +294,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
   </main>
+
   <div id="progress">
     <span id="progress-value">
       <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -303,6 +302,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </svg>
     </span>
   </div>
+
   <footer>
     <div class="container">
       <div class="row">
@@ -468,7 +468,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <p class="mb-0">Copyright © 2024 Accountiod. All Rights Reserved</p>
     </div>
   </footer>
+
   <script src="./assets/js/script.js"></script>
+
   </script>
 </body>
 

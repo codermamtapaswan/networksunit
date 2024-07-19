@@ -1,6 +1,4 @@
 <?php
-
-
 $dns_types = [
   "DNS_A" => "A",
   "DNS_AAAA" => "AAAA",
@@ -25,10 +23,10 @@ if (isset($_POST['dns_checker'])) {
       if (defined($get_dns_type)) {
         $dnsdata = dns_get_record($domain_name, constant($get_dns_type));
         if (!$dnsdata) {
-          $message = "No data found for the selected DNS type.";
+          $message = "No record.";
         }
       } else {
-        $message = "The selected DNS type is not supported by your PHP installation.";
+        $message = "No data found for the selected DNS type";
       }
     } else {
       $message = "Invalid DNS type selected.";
@@ -301,13 +299,15 @@ if (isset($_POST['dns_checker'])) {
             </div>
           </div>
         </div>
-      <?php elseif (isset($message)) : ?>
-        <div class="single-page all-page">
-          <div class="tool-error-box">
-            <?php echo $message; ?>
-            <img src="assets/img/tool-error.svg" alt="" class="img-fluid tool-error-img">
+      <?php else:?>
+          <?php if (isset($message)) : ?>
+          <div class="single-page all-page">
+            <div class="tool-error-box">
+              <?php echo $message; ?>
+              <img src="assets/img/tool-error.svg" alt="" class="img-fluid tool-error-img">
+            </div>
           </div>
-        </div>
+          <?php endif;?>
       <?php endif; ?>
     </div>
 

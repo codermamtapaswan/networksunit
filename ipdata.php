@@ -3,76 +3,75 @@
 /*
  * Geting Client Ip Address
 ***********************************/
+
 function getClientIPs($config = [])
 {
-  static $proxyIPs = [];
-  static $headerKeys = [
-    'HTTP_CLIENT_IP',
-    'HTTP_X_FORWARDED_FOR',
-    'HTTP_X_FORWARDED',
-    'HTTP_X_CLUSTER_CLIENT_IP',
-    'HTTP_FORWARDED_FOR',
-    'HTTP_FORWARDED',
-    'HTTP_VIA'
-  ];
-  static $cachedIPs = null;
+    static $proxyIPs = [];
+    static $headerKeys = [
+        'HTTP_CLIENT_IP',
+        'HTTP_X_FORWARDED_FOR',
+        'HTTP_X_FORWARDED',
+        'HTTP_X_CLUSTER_CLIENT_IP',
+        'HTTP_FORWARDED_FOR',
+        'HTTP_FORWARDED',
+        'HTTP_VIA'
+    ];
+    static $cachedIPs = null;
 
-  // Handle configuration
-  if (isset($config['proxyIPs'])) {
-    $proxyIPs = $config['proxyIPs'];
-  }
-
-  if (isset($config['headerKeys'])) {
-    $headerKeys = $config['headerKeys'];
-  }
-
-  if (!empty($config['proxyMode'])) {
-    $proxyIPs = true;
-  }
-
-  if ($cachedIPs !== null) {
-    return $cachedIPs;
-  }
-
-  $ipv4 = [];
-  $ipv6 = [];
-
-  // Get IP from REMOTE_ADDR
-  if (isset($_SERVER['REMOTE_ADDR'])) {
-    $ip = $_SERVER['REMOTE_ADDR'];
-    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-      $ipv4[] = $ip;
-    } elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-      $ipv6[] = $ip;
+    // Handle configuration
+    if (isset($config['proxyIPs'])) {
+        $proxyIPs = $config['proxyIPs'];
     }
-  }
 
-  // Check proxy headers
-  if ($proxyIPs === true || (!empty($proxyIPs) && is_array($proxyIPs))) {
-    foreach ($headerKeys as $key) {
-      if (isset($_SERVER[$key])) {
-        $ips = explode(',', $_SERVER[$key]);
-        foreach ($ips as $ip) {
-          $ip = trim($ip);
-          if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) && !in_array($ip, $ipv4)) {
+    if (isset($config['headerKeys'])) {
+        $headerKeys = $config['headerKeys'];
+    }
+
+    if (!empty($config['proxyMode'])) {
+        $proxyIPs = true;
+    }
+
+    if ($cachedIPs !== null) {
+        return $cachedIPs;
+    }
+
+    $ipv4 = [];
+    $ipv6 = [];
+
+    // Get IP from REMOTE_ADDR
+    if (isset($_SERVER['REMOTE_ADDR'])) {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             $ipv4[] = $ip;
-          } elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && !in_array($ip, $ipv6)) {
+        } elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
             $ipv6[] = $ip;
-          }
         }
-      }
     }
-  }
 
-  $cachedIPs = [
-    'ipv4' => $ipv4,
-    'ipv6' => $ipv6
-  ];
+    // Check proxy headers
+    if ($proxyIPs === true || (!empty($proxyIPs) && is_array($proxyIPs))) {
+        foreach ($headerKeys as $key) {
+            if (isset($_SERVER[$key])) {
+                $ips = explode(',', $_SERVER[$key]);
+                foreach ($ips as $ip) {
+                    $ip = trim($ip);
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) && !in_array($ip, $ipv4)) {
+                        $ipv4[] = $ip;
+                    } elseif (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && !in_array($ip, $ipv6)) {
+                        $ipv6[] = $ip;
+                    }
+                }
+            }
+        }
+    }
 
-  return $cachedIPs;
+    $cachedIPs = [
+        'ipv4' => $ipv4,
+        'ipv6' => $ipv6
+    ];
+
+    return $cachedIPs;
 }
-
-
 
 
 
@@ -91,7 +90,7 @@ function get_browser_name($user_agent)
   return 'Other';
 }
 
-$client_browser = get_browser_name($_SERVER['HTTP_USER_AGENT']);
+
 
 
 /*
@@ -1583,4 +1582,3 @@ class MobileDetect
   }
 }
 // Create an instance of MobileDetect class
-$mdetect = new MobileDetect();
