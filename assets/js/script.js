@@ -228,9 +228,10 @@ if (copyBtns) {
   copyBtns.forEach((copyBtn, index) => {
     copyBtn.addEventListener("click", function () {
       let copyTexts = copyBtn.parentNode.querySelectorAll(".copy-text");
-
       if (copyTexts) {
-        navigator.clipboard.writeText(copyTexts);
+
+        navigator.clipboard.writeText(copyTexts.value);
+        
         copyBtn.classList.add("active");
       }
 
