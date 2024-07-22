@@ -2,64 +2,11 @@
 
 require_once 'ipdata.php';
 
-
-
-/*
- * Detecting Client  Device....
- **************************************/
- 
-$mdetect = new MobileDetect();
-if($mdetect){
-  if ($mdetect->isMobile()) {
-    if ($mdetect->isTablet()) {
-      $client_device =  'Tablet Device';
-    } else {
-      $client_device =  'Mobile Device';
-    }
-  
-    if ($mdetect->isiOS()) {
-      $client_device =  'IOS';
-    } elseif ($mdetect->isAndroidOS()) {
-      $client_device =  'ANDROID';
-    }
-    
-  } else {
-    $client_device =  'Desktop';
-  }
-}
-else{
-  $meassage = "Not Dected!";
-}
-
-/*
- * Detecting Client  Device Type....
- **************************************/
-
-$client_browser = get_browser_name($_SERVER['HTTP_USER_AGENT']);
-if(!$client_browser){
-  $meassage = "Not Dected!";
-}
-
-/*
- * Detecting Client  Device IP Address....
- **************************************/
-$clientIPs  =  getClientIPs();
-if($clientIPs){
-  $ipv4 = implode(', ', $clientIPs['ipv4']);
-  $ipv6 = implode(', ', $clientIPs['ipv6']);
-
-  if(!$ipv4){
-    $meassage = "Not Dected!";;
-  }
-  if(!$ipv6){
-    $meassage = "Not Dected!";;
-  }
-  
-}
-else{
-  $meassage = "Not Dected!";
-}
-
+$ip_data = what_is_my_ip_data();
+$os = $ip_data['os'];
+$client_browser =  $ip_data['browser'];
+$ipv4 = $ip_data['ipv4'];
+$ipv6 = $ip_data['ipv6'];
 
 
 
@@ -288,20 +235,20 @@ else{
 
             <?php if (isset($client_browser)) { ?>
               <span>
-                My browser : <strong><?php echo $client_browser ?></strong>
+                Browser : <strong><?php echo $client_browser ?></strong>
               </span>
             <?php } ?>
 
 
-            <?php if (isset($client_device)) { ?>
+            <?php if (isset($os)) { ?>
               <span>
-                My Device : <strong><?php echo $client_device ?></strong>
+                Operating System : <strong><?php echo $os ?></strong>
               </span>
             <?php } ?>
           </div>
         </div>
       </div>
-    </div>
+  </div>
 
 
 

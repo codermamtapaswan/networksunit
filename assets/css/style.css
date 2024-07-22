@@ -543,18 +543,6 @@ h6,
   box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
 }
 
-/* .copyboard:after {
-    content: "";
-    position: absolute;
-    top: -20px;
-    right: 25px;
-    width: 10px;
-    height: 10px;
-    background: #5c81dc;
-    transform: rotate(45deg);
-    display: none;
-  } */
-
 .copyboard.active:before,
 .copyboard.active:after {
   display: block;
@@ -565,7 +553,7 @@ h6,
   display: flex;
   align-items: center;
   margin: 0 auto;
-  width: 40%;
+  width: fit-content;
   padding: 40px;
   position: relative;
   font-size: 20px;
@@ -597,4 +585,16 @@ h6,
 .ip-ping .copyboard:before {
   top: 0px;
   right: -120px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

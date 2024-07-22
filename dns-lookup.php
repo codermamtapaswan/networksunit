@@ -233,7 +233,6 @@ if (isset($_POST['dns_checker'])) {
             <div class="tools-page-box-flex">
               <div class="h4 mb-mob-0">DNS Propagation Checker</div>
 
-
               <form method="post">
                 <input type="text" name="domain_name" value="<?php if (isset($domain_name)) echo htmlspecialchars($domain_name); ?>" placeholder="example.com" required>
                 <div class="custom-select">

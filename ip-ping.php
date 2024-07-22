@@ -13,17 +13,25 @@ function pingDomain($domain, $count, $env = 'windows')
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $domain = $_POST['domain'];
-  $count = $_POST['count'];
+  $get_count = $_POST['count'];
+  $count = preg_replace("/[^0-9]/", '', $get_count);
 
   // Input validation
   if (filter_var($domain, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME)) {
-    $pingResultArr = pingDomain($domain, $count);
-    $pingResult = implode("\n", $pingResultArr);
-    if (!$pingResult) {
-      $message = "No results yet. Please enter a domain and click 'Check'.";
-    }
+      if ($count && $count > 0) {
+          $pingResultArr = pingDomain($domain, $count);
+          $pingResult = implode("\n", $pingResultArr);
+          if (!$pingResult) {
+              $message = "No results yet. Please enter a domain and click 'Check'.";
+     }
+     elseif($count <= 8){
+      $message = "Enter less or Equal to 8 only.";
+     }
+      } else {
+          $message = "Enter a positive number only.";
+      }
   } else {
-    $message = "Invalid domain name provided.";
+      $message = "Invalid domain name provided.";
   }
 }
 
@@ -224,7 +232,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <div class="h4 mb-mob-0">Ping IP or Domain Checker</div>
               <form method="post">
                 <input type="text" id="domain" name="domain" value="<?php if (isset($_POST['domain'])) echo htmlspecialchars($_POST['domain']); ?>" placeholder="Enter Domain or IP Address:" required>
-                <input type="number" id="count" name="count" value="<?php if (isset($_POST['count'])) echo htmlspecialchars($_POST['count']);?>" min="1" required>
+                <input type="number" id="count" name="count" value="<?php if (isset($_POST['count'])) echo htmlspecialchars($_POST['count']);?>" min="1" required max="8">
                 <div class="btn-container-flex" type="submit">
                   <button class="secondry-btn btn-flex">Check</button>
                 </div>
