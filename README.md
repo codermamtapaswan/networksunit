@@ -18,8 +18,4 @@ Welcome to the **Networks Unit** repository! This project features an HTML blog 
    - Converts IP addresses between binary, decimal, and hexadecimal formats.
    - User-friendly interface for easy conversions.
 
-## 📄 Usage
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/codermamtapaswan/networksunit.git
